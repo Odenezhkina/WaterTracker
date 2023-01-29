@@ -1,6 +1,6 @@
 package com.study.watertracker.domain.repository
 
-import com.study.watertracker.domain.DayWaterIntake
+import com.study.watertracker.domain.model.DayWaterIntake
 import java.util.*
 
 interface WaterRepository {
