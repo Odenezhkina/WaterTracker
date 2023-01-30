@@ -1,6 +1,5 @@
 package com.study.watertracker.presentation.home
 
-import android.widget.Space
 import android.widget.TextClock
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -33,7 +32,7 @@ import kotlin.math.roundToInt
 @Composable
 fun HomeScreen(modifier: Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center),
         verticalArrangement = Arrangement.Center,
