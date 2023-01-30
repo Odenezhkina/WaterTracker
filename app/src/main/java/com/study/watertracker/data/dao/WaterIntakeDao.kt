@@ -20,7 +20,7 @@ interface WaterIntakeDao {
     fun getAll(): Flow<List<DayWaterIntakeEntity>>
 
     @Query("SELECT * FROM water_intakes WHERE date BETWEEN :dayStart AND :dayEnd")
-    suspend fun getByDay(dayStart: Long, dayEnd: Long): DayWaterIntakeEntity?
+    fun getByDay(dayStart: Long, dayEnd: Long): Flow<DayWaterIntakeEntity?>
 
     @Query("SELECT COUNT(*) FROM water_intakes")
     suspend fun countAll(): Int

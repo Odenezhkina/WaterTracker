@@ -5,7 +5,7 @@ import com.study.watertracker.data.mappers.toWaterIntake
 import com.study.watertracker.data.mappers.toWaterIntakeEntity
 import com.study.watertracker.domain.model.DayWaterIntake
 import com.study.watertracker.domain.repository.WaterIntakeRepository
-import com.study.watertracker.domain.util.setEndtOfTheDay
+import com.study.watertracker.domain.util.setEndOfTheDay
 import com.study.watertracker.domain.util.setStartOfTheDay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,17 +19,20 @@ class WaterIntakeRepositoryImpl(private val dao: WaterIntakeDao) : WaterIntakeRe
         TODO("Not yet implemented")
     }
 
-    override suspend fun getByDay(calendar: Calendar): DayWaterIntake? {
+    override fun getByDay(calendar: Calendar): Flow<DayWaterIntake?> {
         return dao.getByDay(
             dayStart = calendar.setStartOfTheDay().timeInMillis,
-            dayEnd = calendar.setEndtOfTheDay().timeInMillis
-        )?.toWaterIntake()
+            dayEnd = calendar.setEndOfTheDay().timeInMillis
+        ).map { it?.toWaterIntake() }
+    }
+
+    override suspend fun updateByDay(waterIntake: DayWaterIntake) {
+        return dao.update(waterIntake.toWaterIntakeEntity())
     }
 
     override suspend fun add(waterIntake: DayWaterIntake): Long =
         dao.insert(waterIntake.toWaterIntakeEntity())
 
-    override suspend fun getCountOfAll(): Int =
-        dao.countAll()
+    override suspend fun getCountOfAll(): Int = dao.countAll()
 
 }

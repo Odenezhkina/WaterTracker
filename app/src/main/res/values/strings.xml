@@ -9,8 +9,8 @@
     <string name="water_metrics_litres">l</string>
 
     <!--    home screen-->
-    <string name="text_clock_24h_format">EE, HH:mm</string>
-    <string name="text_clock_12h_format">EE, hh:mm a</string>
+    <string name="text_clock_24h_format">EE, d MMMM</string>
+    <string name="text_clock_12h_format">EE, d MMMM</string>
     <string name="progressbar_water_intake_title">%1$s \%%</string>
     <!--    900/1200 ml-->
     <string name="progressbar_water_intake_content">%1$d/%2$d %3$s</string>

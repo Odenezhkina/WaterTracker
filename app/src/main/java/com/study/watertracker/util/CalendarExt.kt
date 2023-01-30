@@ -9,7 +9,7 @@ fun Calendar.setStartOfTheDay() = this.apply {
     set(Calendar.MILLISECOND, 0)
 }
 
-fun Calendar.setEndtOfTheDay() = this.apply {
+fun Calendar.setEndOfTheDay() = this.apply {
     set(Calendar.HOUR_OF_DAY, 23)
     set(Calendar.MINUTE, 59)
     set(Calendar.SECOND, 59)

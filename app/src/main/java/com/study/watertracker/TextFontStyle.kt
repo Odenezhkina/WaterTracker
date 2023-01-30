@@ -1,4 +1,4 @@
-package com.study.watertracker.presentation
+package com.study.watertracker
 
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit

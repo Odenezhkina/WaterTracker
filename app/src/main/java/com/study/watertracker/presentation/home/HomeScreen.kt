@@ -1,5 +1,6 @@
 package com.study.watertracker.presentation.home
 
+
 import android.widget.TextClock
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -13,9 +14,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -23,14 +26,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.study.watertracker.Icons
 import com.study.watertracker.R
-import com.study.watertracker.presentation.TextFontStyle
+import com.study.watertracker.TextFontStyle
 import com.study.watertracker.ui.theme.AccentBlue
 import com.study.watertracker.ui.theme.Black
 import kotlin.math.roundToInt
 
 @Composable
-fun HomeScreen(modifier: Modifier) {
+fun HomeScreen(
+    modifier: Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -46,7 +54,9 @@ fun HomeScreen(modifier: Modifier) {
 
         Spacer(Modifier.height(32.dp))
 
-        BtnAddWater()
+        BtnAddWater {
+            // todo on click
+        }
     }
 }
 
@@ -82,15 +92,21 @@ fun TextClock(clockTextSize: Float = 20f) {
 
 
 @Composable
-fun BtnAddWater() {
+fun BtnAddWater(onClick: () -> Unit) {
     IconButton(
         modifier = Modifier
-            .background(AccentBlue, shape = CircleShape)
+            .shadow(
+                elevation = 20.dp,
+                shape = CircleShape
+            )
+            .background(Black, shape = CircleShape)
             .padding(8.dp),
-        onClick = { /*TODO*/ }) {
+        onClick = { onClick() }) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_baseline_add_24),
-            contentDescription = stringResource(id = R.string.btn_add_water_content_description)
+            painter = painterResource(id = Icons.ADD.iconRes),
+            contentDescription = stringResource(id = R.string.btn_add_water_content_description),
+            Modifier.size(48.dp),
+            colorResource(id = R.color.black)
         )
     }
 }
@@ -98,7 +114,9 @@ fun BtnAddWater() {
 @Preview
 @Composable
 fun BtnAddWaterPreview() {
-    BtnAddWater()
+    BtnAddWater() {
+
+    }
 }
 
 @Composable
@@ -149,7 +167,7 @@ fun WaterProgressBar(
             )
             Text(
                 textAlign = TextAlign.Center,
-                text = "900/1200 ml",
+                text = "900/1200 ml", // todo
                 color = Black,
                 fontSize = TextFontStyle.H3.fontSize,
                 fontWeight = TextFontStyle.H3.fontWeight
