@@ -8,7 +8,7 @@ import java.util.*
 @Entity(tableName = "water_intakes")
 data class DayWaterIntakeEntity(
     @PrimaryKey val id: Long = 0,
-    val amount: Int = 0,
+    val amount: Float = 0f,
     val metric: WaterMetrics = WaterMetrics.MILLILITRES,
     val date: Calendar = Calendar.getInstance()
 )

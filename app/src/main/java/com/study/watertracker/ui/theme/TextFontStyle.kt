@@ -1,4 +1,4 @@
-package com.study.watertracker
+package com.study.watertracker.ui.theme
 
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit

@@ -1,6 +1,7 @@
-package com.study.watertracker
+package com.study.watertracker.ui.theme
 
 import androidx.annotation.DrawableRes
+import com.study.watertracker.R
 
 enum class Icons(@DrawableRes val iconRes: Int) {
     ADD(R.drawable.ic_baseline_add_24),

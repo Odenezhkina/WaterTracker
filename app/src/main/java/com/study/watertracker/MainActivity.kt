@@ -15,7 +15,9 @@ import androidx.navigation.compose.rememberNavController
 import com.study.watertracker.presentation.ui.NavigationGraph
 import com.study.watertracker.presentation.ui.navigation.BottomNavigation
 import com.study.watertracker.ui.theme.WaterTrackerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

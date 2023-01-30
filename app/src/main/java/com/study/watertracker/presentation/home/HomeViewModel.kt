@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.study.watertracker.domain.model.DayWaterIntake
 import com.study.watertracker.domain.usecase.WaterUseCases
 import com.study.watertracker.util.NotFoundException
-import com.study.watertracker.util.State
+import com.study.watertracker.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -16,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val waterUseCases: WaterUseCases) : ViewModel() {
 
-    private var _dayWaterIntake: MutableStateFlow<State<DayWaterIntake>> =
-        MutableStateFlow(State.Loading())
+    private var _dayWaterIntake: MutableStateFlow<UiState<DayWaterIntake>> =
+        MutableStateFlow(UiState.Loading())
     val dayWaterIntake = _dayWaterIntake.asStateFlow()
 
     init {
@@ -28,17 +28,24 @@ class HomeViewModel @Inject constructor(private val waterUseCases: WaterUseCases
         waterUseCases.getWaterIntakeByDay().distinctUntilChanged().collectLatest { waterIntake ->
             _dayWaterIntake.update {
                 waterIntake?.let {
-                    State.Success(it)
-                } ?: State.Error(NotFoundException())
+                    UiState.Success(it)
+                } ?: UiState.Error(NotFoundException())
             }
         }
     }
 
-    fun addWater() = viewModelScope.launch {
-        dayWaterIntake.value.data?.let { waterIntake ->
-            val newAmount = waterIntake.amount + waterIntake.metric.standarGlassIntake
-            waterUseCases.updateWaterIntake(waterIntake.copy(amount = newAmount))
+    fun onEvent(event: HomeEvent) = viewModelScope.launch {
+        when (event) {
+            is HomeEvent.AddGlassOfWater ->
+                dayWaterIntake.value.data?.let { waterIntake ->
+                    val newAmount = waterIntake.amount + waterIntake.metric.standarGlassIntake
+                    waterUseCases.updateWaterIntake(waterIntake.copy(amount = newAmount))
+                }
+            is HomeEvent.TryAgain -> {
+                // todo
+            }
         }
     }
+
 
 }

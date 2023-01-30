@@ -8,6 +8,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Text
@@ -18,7 +19,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -27,18 +27,20 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.study.watertracker.Icons
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.study.watertracker.R
-import com.study.watertracker.TextFontStyle
-import com.study.watertracker.ui.theme.AccentBlue
-import com.study.watertracker.ui.theme.Black
+import com.study.watertracker.ui.theme.*
+import com.study.watertracker.util.NotFoundException
+import com.study.watertracker.util.UiState
 import kotlin.math.roundToInt
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier,
-    viewModel: HomeViewModel = hiltViewModel(),
+    modifier: Modifier
 ) {
+    val viewModel = viewModel<HomeViewModel>()
+    val state by viewModel.dayWaterIntake.collectAsState()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -46,30 +48,52 @@ fun HomeScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextClock()
-
-        Spacer(Modifier.height(16.dp))
-
-        WaterProgressBar(percentage = 80f, maxNumber = 120)
-
-        Spacer(Modifier.height(32.dp))
-
-        BtnAddWater {
-            // todo on click
+        when (state) {
+            is UiState.Loading -> {
+                // todo
+            }
+            is UiState.Error -> {
+                val stringRes = when (state.error) {
+                    is NotFoundException -> R.string.exception_not_found
+                    else -> R.string.exception_unknown_error
+                }
+                Text(
+                    modifier = modifier.padding(24.dp),
+                    textAlign = TextAlign.Center,
+                    text = stringResource(id = stringRes),
+                    color = ErrorRed,
+                    fontWeight = TextFontStyle.H3.fontWeight,
+                    fontSize = TextFontStyle.H3.fontSize
+                )
+                Spacer(Modifier.height(16.dp))
+                Button(modifier = modifier.background(color = Black),
+                    onClick = {
+                        viewModel.onEvent(HomeEvent.TryAgain)
+                    }) {
+                    Text(
+                        stringResource(id = R.string.btn_try_again),
+                        fontSize = TextFontStyle.H3.fontSize
+                    )
+                }
+            }
+            is UiState.Success -> {
+                TextClock()
+                Spacer(Modifier.height(16.dp))
+                // todo
+                WaterProgressBar(percentage = 80f, maxNumber = 120)
+                Spacer(Modifier.height(32.dp))
+                BtnAddWater {
+                    viewModel.onEvent(HomeEvent.AddGlassOfWater)
+                }
+            }
         }
     }
 }
 
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen(modifier = Modifier)
-}
-
 
 @Preview
 @Composable
-fun TextClock(clockTextSize: Float = 20f) {
+fun TextClock(clockTextSize: Float = TextFontStyle.H3.fontSize.value) {
     val pattern24h = stringResource(id = R.string.text_clock_24h_format)
     val pattern12h = stringResource(id = R.string.text_clock_12h_format)
     AndroidView(
@@ -106,7 +130,7 @@ fun BtnAddWater(onClick: () -> Unit) {
             painter = painterResource(id = Icons.ADD.iconRes),
             contentDescription = stringResource(id = R.string.btn_add_water_content_description),
             Modifier.size(48.dp),
-            colorResource(id = R.color.black)
+            tint = White
         )
     }
 }
@@ -114,8 +138,7 @@ fun BtnAddWater(onClick: () -> Unit) {
 @Preview
 @Composable
 fun BtnAddWaterPreview() {
-    BtnAddWater() {
-
+    BtnAddWater {
     }
 }
 

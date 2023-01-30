@@ -16,7 +16,7 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun providesWaterIntakeDatabase(app: Application): WaterIntakeDatabase =
-        Room.databaseBuilder(app, WaterIntakeDatabase::class.java, "water_intake_database")
+        Room.databaseBuilder(app, WaterIntakeDatabase::class.java, WaterIntakeDatabase.DATABASE_NAME)
             .fallbackToDestructiveMigration()
             .build()
 

@@ -10,8 +10,10 @@ import com.study.watertracker.domain.util.setStartOfTheDay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.*
+import javax.inject.Inject
 
-class WaterIntakeRepositoryImpl(private val dao: WaterIntakeDao) : WaterIntakeRepository {
+class WaterIntakeRepositoryImpl @Inject constructor(private val dao: WaterIntakeDao) :
+    WaterIntakeRepository {
     override fun getAll(): Flow<List<DayWaterIntake>> =
         dao.getAll().map { it.map { entity -> entity.toWaterIntake() } }
 

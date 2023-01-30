@@ -10,10 +10,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
-@InstallIn(SingletonComponent::class)
 @Module
-interface UseCasesModule {
+@InstallIn(SingletonComponent::class)
+class UseCasesModule {
 
     @Provides
     @Singleton

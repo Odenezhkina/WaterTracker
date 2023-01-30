@@ -13,4 +13,8 @@ import com.study.watertracker.data.entities.DayWaterIntakeEntity
 @TypeConverters(CalendarConverter::class, WaterMetricConverter::class)
 abstract class WaterIntakeDatabase : RoomDatabase() {
     abstract fun waterIntakeDao(): WaterIntakeDao
+
+    companion object {
+        const val DATABASE_NAME = "water_intake_database"
+    }
 }
