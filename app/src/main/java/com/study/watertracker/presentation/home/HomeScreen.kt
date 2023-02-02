@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.study.watertracker.R
 import com.study.watertracker.ui.theme.*
 import com.study.watertracker.util.NotFoundException
@@ -36,9 +35,9 @@ import kotlin.math.roundToInt
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier
+    modifier: Modifier,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val viewModel = viewModel<HomeViewModel>()
     val state by viewModel.dayWaterIntake.collectAsState()
 
     Column(
@@ -77,13 +76,19 @@ fun HomeScreen(
                 }
             }
             is UiState.Success -> {
-                TextClock()
-                Spacer(Modifier.height(16.dp))
-                // todo
-                WaterProgressBar(percentage = 80f, maxNumber = 120)
-                Spacer(Modifier.height(32.dp))
-                BtnAddWater {
-                    viewModel.onEvent(HomeEvent.AddGlassOfWater)
+                state.data?.let { uiWaterIntake ->
+                    TextClock()
+                    Spacer(Modifier.height(16.dp))
+                    // todo
+                    WaterProgressBar(
+                        currValue = uiWaterIntake.amount,
+                        maxValue = uiWaterIntake.maxAmount,
+                        metrics = stringResource(id = uiWaterIntake.metric.stringResId)
+                    )
+                    Spacer(Modifier.height(32.dp))
+                    BtnAddWater {
+                        viewModel.onEvent(HomeEvent.AddGlassOfWater)
+                    }
                 }
             }
         }
@@ -144,8 +149,9 @@ fun BtnAddWaterPreview() {
 
 @Composable
 fun WaterProgressBar(
-    percentage: Float,
-    maxNumber: Int,
+    currValue: Float,
+    maxValue: Float,
+    metrics: String? = null,
     color: Color = AccentBlue,
     radius: Dp = 100.dp,
     strokeWidth: Dp = 16.dp,
@@ -155,6 +161,7 @@ fun WaterProgressBar(
     var animationPlayed by remember {
         mutableStateOf(false)
     }
+    val percentage: Float = currValue / maxValue * 100
     val currPercentage = animateFloatAsState(
         targetValue = if (animationPlayed) percentage else 0f,
         animationSpec = tween(animationDuration, animDelay)
@@ -183,14 +190,14 @@ fun WaterProgressBar(
         ) {
             Text(
                 textAlign = TextAlign.Center,
-                text = "${(currPercentage.value * maxNumber).roundToInt()}%",
+                text = "${(currPercentage.value.roundToInt())}%",
                 color = Black,
                 fontSize = TextFontStyle.H1.fontSize,
                 fontWeight = TextFontStyle.H1.fontWeight
             )
             Text(
                 textAlign = TextAlign.Center,
-                text = "900/1200 ml", // todo
+                text = "$currValue/$maxValue ${metrics ?: ""}",
                 color = Black,
                 fontSize = TextFontStyle.H3.fontSize,
                 fontWeight = TextFontStyle.H3.fontWeight
@@ -202,7 +209,7 @@ fun WaterProgressBar(
 @Preview
 @Composable
 fun WaterProgressBarPreview() {
-    WaterProgressBar(0.7f, 100)
+    WaterProgressBar(70f, 100f)
 }
 
 
