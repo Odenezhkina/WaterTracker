@@ -91,6 +91,9 @@ dependencies {
 
     // ViewModel utilities for Compose
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+
+    // datastore
+    implementation "androidx.datastore:datastore-preferences:$datastore_version"
 }
 
 
