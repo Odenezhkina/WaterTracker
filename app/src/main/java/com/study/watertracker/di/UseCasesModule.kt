@@ -1,9 +1,9 @@
 package com.study.watertracker.di
 
 import com.study.watertracker.domain.repository.WaterIntakeRepository
-import com.study.watertracker.domain.usecase.GetWaterIntakeByDay
-import com.study.watertracker.domain.usecase.UpdateWaterIntake
-import com.study.watertracker.domain.usecase.WaterUseCases
+import com.study.watertracker.domain.usecase.water.GetWaterIntakeByDay
+import com.study.watertracker.domain.usecase.water.UpdateWaterIntake
+import com.study.watertracker.domain.usecase.water.WaterUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
