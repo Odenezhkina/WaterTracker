@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.study.watertracker.domain.model.WaterMetrics
@@ -15,13 +16,13 @@ class UserSettingsRepositoryImpl(private val context: Context) : UserSettingsRep
     override fun getDailyWaterIntake(): Flow<Float> =
         context.dataStore.data
             .map { preferences ->
-                (preferences[DAILY_WATER_INTAKE_KEY] ?: DEFAULT_WATER_INTAKE) as Float
+                preferences[DAILY_WATER_INTAKE_KEY] ?: DEFAULT_WATER_INTAKE
             }
 
 
     override suspend fun saveDailyWaterIntake(value: Float) {
         context.dataStore.edit { preferences ->
-            preferences[DAILY_WATER_INTAKE_KEY] = value.toString()
+            preferences[DAILY_WATER_INTAKE_KEY] = value
         }
     }
 
@@ -35,19 +36,19 @@ class UserSettingsRepositoryImpl(private val context: Context) : UserSettingsRep
 
     override suspend fun saveWaterMetrics(waterMetrics: WaterMetrics) {
         context.dataStore.edit { preferences ->
-            preferences[DAILY_WATER_INTAKE_KEY] = waterMetrics.name
+            preferences[WATER_METRICS_KEY] = waterMetrics.name
         }
     }
 
     override fun getWaterIntakePerGlass(): Flow<Float> =
         context.dataStore.data
             .map { preferences ->
-                (preferences[GLASS_INTAKE_KEY] ?: DEFAULT_GLASS_INTAKE) as Float
+                preferences[GLASS_INTAKE_KEY] ?: DEFAULT_GLASS_INTAKE
             }
 
     override suspend fun saveWaterIntakePerGlass(value: Float) {
         context.dataStore.edit { preferences ->
-            preferences[GLASS_INTAKE_KEY] = value.toString()
+            preferences[GLASS_INTAKE_KEY] = value
         }
     }
 
@@ -56,9 +57,9 @@ class UserSettingsRepositoryImpl(private val context: Context) : UserSettingsRep
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
             DATA_STORE_NAME
         )
-        private val DAILY_WATER_INTAKE_KEY = stringPreferencesKey("daily water intake")
+        private val DAILY_WATER_INTAKE_KEY = floatPreferencesKey("daily water intake")
         private val WATER_METRICS_KEY = stringPreferencesKey("water metrics")
-        private val GLASS_INTAKE_KEY = stringPreferencesKey("water per glass")
+        private val GLASS_INTAKE_KEY = floatPreferencesKey("water per glass")
         private const val DEFAULT_WATER_INTAKE = 2500f
         private val DEFAULT_WATER_METRIC = WaterMetrics.MILLILITRES
         private const val DEFAULT_GLASS_INTAKE = 200f
