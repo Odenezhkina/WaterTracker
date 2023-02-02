@@ -5,6 +5,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.study.watertracker.domain.model.ActivityLevel
+import com.study.watertracker.domain.model.UserInfo.Companion.DEFAULT_ACTIVITY_LEVEL
+import com.study.watertracker.domain.model.UserInfo.Companion.DEFAULT_GENDER
+import com.study.watertracker.domain.model.UserInfo.Companion.DEFAULT_WEIGHT
 import com.study.watertracker.domain.repository.UserRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
@@ -56,8 +59,5 @@ class UserRepositoryImpl(@ApplicationContext private val context: Context) : Use
         private val GENDER_KEY = booleanPreferencesKey("gender")
         private val ACTIVITY_LEVEL_KEY = stringPreferencesKey("activity level")
         private val WEIGHT_KEY = intPreferencesKey("weight")
-        private const val DEFAULT_GENDER = true
-        private val DEFAULT_ACTIVITY_LEVEL = ActivityLevel.AVERAGE
-        private const val DEFAULT_WEIGHT = 55
     }
 }

@@ -1,4 +1,4 @@
-package com.study.watertracker.domain.usecase
+package com.study.watertracker.domain.usecase.water
 
 import com.study.watertracker.domain.model.WaterIntake
 import com.study.watertracker.domain.repository.WaterIntakeRepository

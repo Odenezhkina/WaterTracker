@@ -2,7 +2,7 @@ package com.study.watertracker.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.study.watertracker.domain.usecase.WaterUseCases
+import com.study.watertracker.domain.usecase.water.WaterUseCases
 import com.study.watertracker.presentation.model.UiWaterIntake
 import com.study.watertracker.presentation.model.toUiWaterIntake
 import com.study.watertracker.presentation.model.toWaterIntake

@@ -1,4 +1,4 @@
-package com.study.watertracker.domain.usecase
+package com.study.watertracker.domain.usecase.water
 
 data class WaterUseCases(
     val getWaterIntakeByDay: GetWaterIntakeByDay,
