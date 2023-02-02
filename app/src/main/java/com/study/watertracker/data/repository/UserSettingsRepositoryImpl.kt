@@ -9,15 +9,15 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.study.watertracker.domain.model.WaterMetrics
 import com.study.watertracker.domain.repository.UserSettingsRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class UserSettingsRepositoryImpl(private val context: Context) : UserSettingsRepository {
-    override fun getDailyWaterIntake(): Flow<Float> =
-        context.dataStore.data
-            .map { preferences ->
-                preferences[DAILY_WATER_INTAKE_KEY] ?: DEFAULT_WATER_INTAKE
-            }
+class UserSettingsRepositoryImpl(@ApplicationContext private val context: Context) :
+    UserSettingsRepository {
+    override fun getDailyWaterIntake(): Flow<Float> = context.dataStore.data.map { preferences ->
+            preferences[DAILY_WATER_INTAKE_KEY] ?: DEFAULT_WATER_INTAKE
+        }
 
 
     override suspend fun saveDailyWaterIntake(value: Float) {

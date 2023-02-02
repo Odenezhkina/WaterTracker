@@ -6,10 +6,11 @@ import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.study.watertracker.domain.model.ActivityLevel
 import com.study.watertracker.domain.repository.UserRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-class UserRepositoryImpl(private val context: Context) : UserRepository {
+class UserRepositoryImpl(@ApplicationContext private val context: Context) : UserRepository {
     override suspend fun getGender(): Boolean =
         context.dataStore.data.map { preferences ->
             preferences[GENDER_KEY]

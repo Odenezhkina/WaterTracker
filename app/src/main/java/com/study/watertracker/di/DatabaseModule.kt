@@ -1,11 +1,12 @@
 package com.study.watertracker.di
 
-import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.study.watertracker.data.WaterIntakeDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -15,8 +16,12 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesWaterIntakeDatabase(app: Application): WaterIntakeDatabase =
-        Room.databaseBuilder(app, WaterIntakeDatabase::class.java, WaterIntakeDatabase.DATABASE_NAME)
+    fun providesWaterIntakeDatabase(@ApplicationContext app: Context): WaterIntakeDatabase =
+        Room.databaseBuilder(
+            app,
+            WaterIntakeDatabase::class.java,
+            WaterIntakeDatabase.DATABASE_NAME
+        )
             .fallbackToDestructiveMigration()
             .build()
 
