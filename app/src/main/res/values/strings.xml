@@ -22,4 +22,22 @@
     <string name="btn_try_again">Try again</string>
 
 
+    <string name="preference_category_notification">Notifications</string>
+    <string name="preference_category_user_info">Information</string>
+    <string name="preference_category_user_settings">Settings</string>
+    <string name="preference_reminder_title">Daily notification</string>
+    <string name="preference_reminder_summary">Reminder to track  water balance</string>
+
+
+    <string name="gender">Gender</string>
+    <string name="activity_level">Activity level</string>
+    <string name="weight">Weight</string>
+
+    <string name="activity_level_low">Low</string>
+    <string name="activity_level_average">Average</string>
+    <string name="activity_level_high">High</string>
+
+    <string name="gender_female">Female</string>
+    <string name="gender_male">Male</string>
+
 </resources>
